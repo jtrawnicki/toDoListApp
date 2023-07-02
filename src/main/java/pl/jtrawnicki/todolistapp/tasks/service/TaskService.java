@@ -1,6 +1,7 @@
 package pl.jtrawnicki.todolistapp.tasks.service;
 
 import org.springframework.stereotype.Service;
+import pl.jtrawnicki.todolistapp.dao.TaskDao;
 import pl.jtrawnicki.todolistapp.tasks.model.Task;
 
 import java.util.ArrayList;
@@ -11,28 +12,45 @@ import java.util.UUID;
 @Service
 public class TaskService {
 
-    List<Task> tasks = new ArrayList<>();
+    private TaskDao taskDao;
 
-
+    public TaskService() {
+        this.taskDao = new TaskDao();
+    }
 
     public List<Task> getTasks() {
-        return tasks;
+        return taskDao.findAll();
     }
 
     public Task getTask(UUID id) {
-        return new Task("Task");
+
+        List<Task> tasks = taskDao.getTasks();
+
+        Task currentTask = new Task();
+
+        for (Task task : tasks) {
+            if (task.getId().equals(id)) {
+                currentTask = task;
+            }
+        }
+
+        return currentTask;
     }
 
     public Task createTask(Task task) {
         task.setId(UUID.randomUUID());
 
-        tasks.add(task);
+        taskDao.add(task);
         
         return task;
     }
 
-    public Task updateTask(UUID id, Task task) {
-        return task;
+    public Task updateTask(UUID id, Task newTask) {
+
+
+        Task updatedTask = taskDao.update(id, newTask);
+
+        return updatedTask;
     }
 
     public void deleteTask(UUID id) {

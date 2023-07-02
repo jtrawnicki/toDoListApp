@@ -6,6 +6,7 @@ import pl.jtrawnicki.todolistapp.categories.model.Category;
 import pl.jtrawnicki.todolistapp.categories.service.CategoryService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController

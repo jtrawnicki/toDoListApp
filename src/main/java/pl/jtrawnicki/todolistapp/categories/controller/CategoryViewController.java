@@ -68,4 +68,20 @@ public class CategoryViewController {
 
         return "redirect:/categories";
     }
+
+    @GetMapping("{id}/delete")
+    public String deleteView(@PathVariable UUID id, Model model) {
+        model.addAttribute("category", categoryService.getCategory(id));
+
+        return "category/delete";
+    }
+
+    @PostMapping("{id}/delete")
+    public String delete(@PathVariable UUID id) {
+        categoryService.deleteCategory(id);
+
+        return "redirect:/categories";
+    }
+
+
 }
