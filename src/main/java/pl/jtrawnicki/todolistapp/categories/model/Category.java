@@ -1,5 +1,9 @@
 package pl.jtrawnicki.todolistapp.categories.model;
 
+import pl.jtrawnicki.todolistapp.tasks.model.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Category {
@@ -8,12 +12,15 @@ public class Category {
 
     private UUID id;
 
+    private List<Task> tasks;
+
     public Category() {
     }
 
     public Category(String name) {
         this.name = name;
         this.id = UUID.randomUUID();
+        this.tasks = new ArrayList<>();
     }
 
     public String getName() {

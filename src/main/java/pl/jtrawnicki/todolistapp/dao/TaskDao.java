@@ -86,4 +86,12 @@ public class TaskDao {
 
         return currentTask;
     }
+
+    public void deleteTask(UUID id) {
+        List<Task> tasks = getTasks();
+
+        tasks.removeIf(task -> task.getId().equals(id));
+
+        saveTasks(tasks);
+    }
 }
