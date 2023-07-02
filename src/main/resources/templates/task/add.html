@@ -46,8 +46,11 @@
           <form method="post" th:object="${task}">
             <div class="card-body">
               <div class="form-group">
-                <label for="taskName">Name</label>
+                <label for="taskName">Name:</label>
                 <input th:field="*{name}" type="text" class="form-control" id="taskName" placeholder="Enter name">
+
+                <label for="taskCategory">Category:</label>
+                <input th:field="*{category}" type="text" class="form-control" id="taskCategory" placeholder="Enter category">
               </div>
 
             </div>
