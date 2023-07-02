@@ -1,8 +1,10 @@
 package pl.jtrawnicki.todolistapp.tasks.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.jtrawnicki.todolistapp.categories.service.CategoryService;
 import pl.jtrawnicki.todolistapp.tasks.model.Task;
 import pl.jtrawnicki.todolistapp.tasks.service.TaskService;
 
@@ -14,8 +16,11 @@ public class TaskViewController {
 
     private final TaskService taskService;
 
-    public TaskViewController(TaskService taskService) {
+    private final CategoryService categoryService;
+
+    public TaskViewController(TaskService taskService, CategoryService categoryService) {
         this.taskService = taskService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping
@@ -50,6 +55,7 @@ public class TaskViewController {
     @GetMapping("/add")
     public String addView(Model model) {
         model.addAttribute("task", taskService.getTask(UUID.randomUUID()));
+        model.addAttribute("categories", categoryService.getCategories());
 
         return "task/add";
     }
@@ -60,4 +66,19 @@ public class TaskViewController {
 
         return "redirect:/tasks";
     }
+
+    @GetMapping("{id}/delete")
+    public String deleteView(@PathVariable UUID id, Model model) {
+        model.addAttribute("task", taskService.getTask(id));
+
+        return "task/delete";
+    }
+
+    @PostMapping("{id}/delete")
+    public String delete(@PathVariable UUID id) {
+        taskService.deleteTask(id);
+
+        return "redirect:/tasks";
+    }
+
 }

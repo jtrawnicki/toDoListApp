@@ -54,5 +54,7 @@ public class TaskService {
     }
 
     public void deleteTask(UUID id) {
+
+        taskDao.deleteTask(id);
     }
 }
