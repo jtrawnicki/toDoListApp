@@ -1,10 +1,10 @@
 package pl.jtrawnicki.todolistapp.tasks.service;
 
 import org.springframework.stereotype.Service;
-import pl.jtrawnicki.todolistapp.dao.TaskDao;
-import pl.jtrawnicki.todolistapp.tasks.model.Task;
+import pl.jtrawnicki.todolistapp.categories.domain.repository.CategoryRepository;
+import pl.jtrawnicki.todolistapp.tasks.domain.model.Task;
+import pl.jtrawnicki.todolistapp.tasks.domain.repository.TaskRepository;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -12,49 +12,44 @@ import java.util.UUID;
 @Service
 public class TaskService {
 
-    private TaskDao taskDao;
+    private final TaskRepository taskRepository;
 
-    public TaskService() {
-        this.taskDao = new TaskDao();
+    private final CategoryRepository categoryRepository;
+
+    public TaskService(TaskRepository taskRepository, CategoryRepository categoryRepository) {
+        this.taskRepository = taskRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<Task> getTasks() {
-        return taskDao.findAll();
+        return taskRepository.findAll();
     }
 
     public Task getTask(UUID id) {
 
-        List<Task> tasks = taskDao.getTasks();
-
-        Task currentTask = new Task();
-
-        for (Task task : tasks) {
-            if (task.getId().equals(id)) {
-                currentTask = task;
-            }
-        }
-
-        return currentTask;
+        return taskRepository.getReferenceById(id);
     }
 
-    public Task createTask(Task task) {
-        task.setId(UUID.randomUUID());
+    public Task createTask(Task taskRequest) {
 
-        taskDao.add(task);
-        
-        return task;
+        Task task = new Task();
+
+        task.setName(taskRequest.getName());
+
+        return taskRepository.save(task);
+
+
     }
 
-    public Task updateTask(UUID id, Task newTask) {
+    public Task updateTask(UUID id, Task taskRequest) {
+        Task task = taskRepository.getReferenceById(id);
 
+        task.setName(taskRequest.getName());
 
-        Task updatedTask = taskDao.update(id, newTask);
-
-        return updatedTask;
+        return taskRepository.save(task);
     }
 
     public void deleteTask(UUID id) {
-
-        taskDao.deleteTask(id);
+        taskRepository.deleteById(id);
     }
 }

@@ -3,7 +3,7 @@ package pl.jtrawnicki.todolistapp.categories.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.jtrawnicki.todolistapp.categories.model.Category;
+import pl.jtrawnicki.todolistapp.categories.domain.model.Category;
 import pl.jtrawnicki.todolistapp.categories.service.CategoryService;
 import pl.jtrawnicki.todolistapp.tasks.service.TaskService;
 
@@ -57,7 +57,7 @@ public class CategoryViewController {
 
     @GetMapping("/add")
     public String addView(Model model) {
-        model.addAttribute("category", categoryService.getCategory(UUID.randomUUID()));
+        model.addAttribute("category", new Category());
 
         return "category/add";
     }

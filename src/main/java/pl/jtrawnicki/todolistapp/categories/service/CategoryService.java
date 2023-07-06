@@ -1,62 +1,61 @@
 package pl.jtrawnicki.todolistapp.categories.service;
 
 import org.springframework.stereotype.Service;
-import pl.jtrawnicki.todolistapp.categories.model.Category;
-import pl.jtrawnicki.todolistapp.dao.CategoryDao;
+import org.springframework.transaction.annotation.Transactional;
+import pl.jtrawnicki.todolistapp.categories.domain.model.Category;
+import pl.jtrawnicki.todolistapp.categories.domain.repository.CategoryRepository;
+
 
 import java.util.*;
 
 @Service
 public class CategoryService {
 
-    private CategoryDao categoryDao;
+    private final CategoryRepository categoryRepository;
 
-    public CategoryService() {
-        this.categoryDao = new CategoryDao();
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<Category> getCategories() {
-        List<Category> categories = categoryDao.findAll();
-
-        return categories;
+        return categoryRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Category getCategory(UUID id) {
 
-        List<Category> categories = getCategories();
-
-        Category currentCategory = new Category();
-
-        for (Category category : categories) {
-            if (category.getId().equals(id))
-                currentCategory = category;
-        }
-
-        return currentCategory;
+        return categoryRepository.getReferenceById(id);
 
 
     }
 
-    public Category createCategory(Category category) {
-        category.setId(UUID.randomUUID());
+    @Transactional
+    public Category createCategory(Category categoryRequest) {
 
-        categoryDao.add(category);
+        Category category = new Category();
 
+        category.setName(categoryRequest.getName());
 
-        return category;
-    }
-
-    public Category updateCategory(UUID id, Category newCategory) {
-
-
-        Category updatedCategory = categoryDao.update(id, newCategory);
-
-        return updatedCategory;
+        return categoryRepository.save(category);
 
     }
 
+    @Transactional
+    public Category updateCategory(UUID id, Category categoryRequest) {
+
+
+        Category category = categoryRepository.getReferenceById(id);
+
+        category.setName(categoryRequest.getName());
+
+        return categoryRepository.save(category);
+
+    }
+
+    @Transactional
     public void deleteCategory(UUID id) {
 
-        categoryDao.delete(id);
+        categoryRepository.deleteById(id);
     }
 }
