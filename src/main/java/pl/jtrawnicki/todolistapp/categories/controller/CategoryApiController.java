@@ -2,11 +2,10 @@ package pl.jtrawnicki.todolistapp.categories.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.jtrawnicki.todolistapp.categories.model.Category;
+import pl.jtrawnicki.todolistapp.categories.domain.model.Category;
 import pl.jtrawnicki.todolistapp.categories.service.CategoryService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
