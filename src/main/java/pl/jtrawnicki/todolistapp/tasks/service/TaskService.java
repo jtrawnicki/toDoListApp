@@ -1,6 +1,7 @@
 package pl.jtrawnicki.todolistapp.tasks.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.jtrawnicki.todolistapp.categories.domain.repository.CategoryRepository;
 import pl.jtrawnicki.todolistapp.tasks.domain.model.Task;
 import pl.jtrawnicki.todolistapp.tasks.domain.repository.TaskRepository;
@@ -21,15 +22,18 @@ public class TaskService {
         this.categoryRepository = categoryRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<Task> getTasks() {
         return taskRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Task getTask(UUID id) {
 
         return taskRepository.getReferenceById(id);
     }
 
+    @Transactional
     public Task createTask(Task taskRequest) {
 
         Task task = new Task();
@@ -39,8 +43,10 @@ public class TaskService {
         return taskRepository.save(task);
 
 
+
     }
 
+    @Transactional
     public Task updateTask(UUID id, Task taskRequest) {
         Task task = taskRepository.getReferenceById(id);
 
@@ -49,7 +55,15 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    @Transactional
     public void deleteTask(UUID id) {
         taskRepository.deleteById(id);
+    }
+
+
+
+    @Transactional(readOnly = true)
+    public List<Task> findAllByCategoryId(UUID id) {
+        return taskRepository.findAllByCategoryId(id);
     }
 }

@@ -51,7 +51,7 @@
 
                 <br>
                 <label>Category:</label>
-                <select class="form-control">
+                <select th:selected="*{category}" class="form-control">
                   <option th:each="category : ${categories}" th:text="${category.name}">option 1</option>
 
                   </select>

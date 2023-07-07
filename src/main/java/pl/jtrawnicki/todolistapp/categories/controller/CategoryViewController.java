@@ -32,9 +32,8 @@ public class CategoryViewController {
 
     @GetMapping("{id}")
     public String singleView(Model model, @PathVariable UUID id) {
-        model.addAttribute("categories", categoryService.getCategories());
         model.addAttribute("category", categoryService.getCategory(id));
-        model.addAttribute("tasks", taskService.getTasks());
+        model.addAttribute("tasks", taskService.findAllByCategoryId(id));
 
         return "category/single";
     }
