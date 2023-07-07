@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.jtrawnicki.todolistapp.categories.domain.model.Category;
 import pl.jtrawnicki.todolistapp.categories.domain.repository.CategoryRepository;
+import pl.jtrawnicki.todolistapp.tasks.domain.model.Task;
 
 
 import java.util.*;
@@ -58,4 +59,5 @@ public class CategoryService {
 
         categoryRepository.deleteById(id);
     }
+
 }

@@ -9,4 +9,6 @@ insert into categories (id, name) values
 insert into tasks (id, name, category_id) values
     (gen_random_uuid(), 'Bieganie', (select id from categories WHERE name = 'Sport')),
     (gen_random_uuid(), '50 pompek', (select id from categories WHERE name = 'Sport')),
-    (gen_random_uuid(), 'Jazda na rowerze', (select id from categories WHERE name = 'Sport'));
+    (gen_random_uuid(), 'Jazda na rowerze', (select id from categories WHERE name = 'Sport')),
+    (gen_random_uuid(), 'Programowanie', (select id from categories WHERE name = 'Edukacja')),
+    (gen_random_uuid(), 'Czytanie ksiazki', (select id from categories WHERE name = 'Edukacja'));

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.jtrawnicki.todolistapp.categories.domain.model.Category;
 import pl.jtrawnicki.todolistapp.categories.service.CategoryService;
+import pl.jtrawnicki.todolistapp.tasks.domain.model.Task;
 
 import java.util.List;
 import java.util.UUID;
