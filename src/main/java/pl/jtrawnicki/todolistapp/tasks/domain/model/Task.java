@@ -12,10 +12,10 @@ import java.util.UUID;
 @Table(name = "tasks")
 public class Task {
 
-    private String name;
-
     @Id
     private UUID id;
+
+    private String name;
 
     @ManyToOne
     private Category category;

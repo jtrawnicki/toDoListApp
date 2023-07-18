@@ -1,84 +1,88 @@
 <!DOCTYPE html>
 
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="main/template :: head(title = 'ToDoList')" />
+<head th:replace="main/template :: head(title = 'ToDoList')"/>
 
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
-  <!-- Navbar -->
-  <th:block th:replace="main/template :: navbar" />
-  <!-- /.navbar -->
+    <!-- Navbar -->
+    <th:block th:replace="main/template :: navbar"/>
+    <!-- /.navbar -->
 
-  <!-- Main Sidebar Container -->
-  <th:block th:replace="main/template :: sidebar" />
+    <!-- Main Sidebar Container -->
+    <th:block th:replace="main/template :: sidebar"/>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Starter Page</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Starter Page</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <div class="content">
-      <div class="container-fluid">
-
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">ADD TASK</h3>
-          </div>
-
-
-          <form method="post" th:object="${task}">
-            <div class="card-body">
-              <div class="form-group">
-                <label for="taskName">Name:</label>
-                <input th:field="*{name}" type="text" class="form-control" id="taskName" placeholder="Enter name">
-
-                <br>
-                <label>Category:</label>
-                <select th:selected="*{category}" class="form-control">
-                  <option th:each="category : ${categories}" th:text="${category.name}">option 1</option>
-
-                  </select>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary">Create</button>
-            </div>
-          </form>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Starter Page</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Starter Page</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
         </div>
+        <!-- /.content-header -->
 
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">ADD TASK</h3>
+                    </div>
+
+
+                    <form th:object="${task}" method="post" action="/tasks">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="taskName">Name:</label>
+                                <input th:field="*{name}" type="text" class="form-control" id="taskName"
+                                       placeholder="Enter name">
+
+                                <br>
+                                <label for="category">Category:</label>
+                                <select th:field="*{category}" class="form-control" id="category">
+                                    <option th:each="category : ${categories}" th:value="${category}"
+                                            th:text="${category.name}">Category
+                                    </option>
+
+                                </select>
+
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Create</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
         <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
 
-  <!-- Control Sidebar -->
-  <th:block th:replace="main/template :: rightbar" />
-  <!-- /.control-sidebar -->
+<!-- Control Sidebar -->
+<th:block th:replace="main/template :: rightbar"/>
+<!-- /.control-sidebar -->
 
-  <!-- Main Footer -->
-  <th:block th:replace="main/template :: footer" />
+<!-- Main Footer -->
+<th:block th:replace="main/template :: footer"/>
 </div>
 <!-- ./wrapper -->
 

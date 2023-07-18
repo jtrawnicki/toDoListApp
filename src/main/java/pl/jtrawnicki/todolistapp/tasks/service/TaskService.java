@@ -2,6 +2,7 @@ package pl.jtrawnicki.todolistapp.tasks.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.jtrawnicki.todolistapp.categories.domain.model.Category;
 import pl.jtrawnicki.todolistapp.categories.domain.repository.CategoryRepository;
 import pl.jtrawnicki.todolistapp.tasks.domain.model.Task;
 import pl.jtrawnicki.todolistapp.tasks.domain.repository.TaskRepository;
@@ -40,10 +41,16 @@ public class TaskService {
 
         task.setName(taskRequest.getName());
 
-        return taskRepository.save(task);
+        UUID categoryId = taskRequest.getCategory().getId();
 
+        Category category = categoryRepository.getReferenceById(categoryId);
 
+        category.addTask(task);
 
+        categoryRepository.save(category);
+        taskRepository.save(task);
+
+        return task;
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 package pl.jtrawnicki.todolistapp.tasks.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +8,7 @@ import pl.jtrawnicki.todolistapp.categories.service.CategoryService;
 import pl.jtrawnicki.todolistapp.tasks.domain.model.Task;
 import pl.jtrawnicki.todolistapp.tasks.service.TaskService;
 
+import java.awt.*;
 import java.util.UUID;
 
 @Controller
@@ -59,7 +61,7 @@ public class TaskViewController {
         return "task/add";
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public String add(@ModelAttribute("task") Task task) {
         taskService.createTask(task);
 
