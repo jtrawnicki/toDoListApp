@@ -18,7 +18,7 @@ public class TaskApiController {
         this.taskService = taskService;
     }
 
-    @GetMapping
+    @GetMapping()
     public List<Task> getTasks() {
         return taskService.getTasks();
     }
@@ -28,7 +28,7 @@ public class TaskApiController {
         return taskService.getTask(id);
     }
 
-    @PostMapping
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(@RequestBody Task task) {
         return taskService.createTask(task);

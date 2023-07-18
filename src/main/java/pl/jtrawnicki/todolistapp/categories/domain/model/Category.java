@@ -15,10 +15,10 @@ import java.util.UUID;
 @Table(name = "categories")
 public class Category {
 
-    private String name;
-
     @Id
     private UUID id;
+
+    private String name;
 
     @OneToMany(mappedBy = "category")
     private List<Task> tasks;
