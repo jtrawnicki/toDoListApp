@@ -45,9 +45,9 @@ public class TaskService {
 
         Category category = categoryRepository.getReferenceById(categoryId);
 
-        category.addTask(task);
 
         categoryRepository.save(category);
+        category.addTask(task);
         taskRepository.save(task);
 
         return task;
