@@ -75,4 +75,8 @@ public class TaskService {
     public List<Task> findAllByCategoryId(UUID id) {
         return taskRepository.findAllByCategoryId(id);
     }
+
+    public int getNumberOfTasks() {
+        return taskRepository.getNumberOfTasks();
+    }
 }
