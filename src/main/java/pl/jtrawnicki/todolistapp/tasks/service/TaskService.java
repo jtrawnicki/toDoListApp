@@ -40,6 +40,7 @@ public class TaskService {
         Task task = new Task();
 
         task.setName(taskRequest.getName());
+        task.setPriority(taskRequest.getPriority());
 
         UUID categoryId = taskRequest.getCategory().getId();
 
@@ -58,6 +59,7 @@ public class TaskService {
         Task task = taskRepository.getReferenceById(id);
 
         task.setName(taskRequest.getName());
+        task.setPriority(taskRequest.getPriority());
 
         return taskRepository.save(task);
     }

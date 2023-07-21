@@ -49,6 +49,10 @@
                                 <label for="taskName">Name:</label>
                                 <input th:field="*{name}" type="text" class="form-control" id="taskName"
                                        placeholder="Enter name">
+                                <br>
+                                <label for="taskPriority">Priority:</label>
+                                <input th:field="*{priority}" type="number" class="form-control" id="taskPriority"
+                                       placeholder="Choose priority">
 
                                 <br>
                                 <label for="category">Category:</label>
@@ -58,6 +62,8 @@
                                     </option>
 
                                 </select>
+
+                                <br>
 
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">Create</button>

@@ -58,13 +58,15 @@
                   <thead>
                   <tr>
                     <th>Name</th>
-                    <th>#</th>
+                    <th>Priority</th>
+                    <th>Options</th>
 
                   </tr>
                   </thead>
                   <tbody>
                   <tr th:each="task : ${tasks}">
                     <td th:text="${task.name}">task</td>
+                    <td th:text="${task.priority}">task</td>
                     <td>
                       <a th:href="@{'/tasks/'+${task.id}}" class="btn btn-primary btn-sm">
                         <i class="fas fa-folder-alt"></i> VIEW
