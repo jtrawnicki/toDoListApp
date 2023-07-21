@@ -19,6 +19,7 @@ public class MainViewController {
     @GetMapping
     public String indexView(Model model) {
         model.addAttribute("tasks", taskService.getTasks());
+        model.addAttribute("numberOfTasks", taskService.getNumberOfTasks());
 
         return "main/index";
     }
