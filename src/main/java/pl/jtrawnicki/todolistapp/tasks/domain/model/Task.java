@@ -17,6 +17,8 @@ public class Task {
 
     private String name;
 
+    private int priority;
+
     @ManyToOne
     private Category category;
 
@@ -54,12 +56,21 @@ public class Task {
         this.id = id;
     }
 
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
 
     @Override
     public String toString() {
         return "Task{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", priority=" + priority +
+                ", category=" + category +
                 '}';
     }
 }
