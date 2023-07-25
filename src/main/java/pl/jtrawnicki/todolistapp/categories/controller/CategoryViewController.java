@@ -1,10 +1,14 @@
 package pl.jtrawnicki.todolistapp.categories.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.jtrawnicki.todolistapp.categories.domain.model.Category;
 import pl.jtrawnicki.todolistapp.categories.service.CategoryService;
+import pl.jtrawnicki.todolistapp.common.dto.Message;
 import pl.jtrawnicki.todolistapp.tasks.service.TaskService;
 
 import java.util.UUID;
@@ -48,8 +52,26 @@ public class CategoryViewController {
     }
 
     @PostMapping("{id}/edit")
-    public String edit(@ModelAttribute("category") Category category, @PathVariable UUID id) {
-        categoryService.updateCategory(id, category);
+    public String edit(@PathVariable UUID id,
+                       @Valid @ModelAttribute("category") Category category,
+                       BindingResult bindingResult,
+                       RedirectAttributes ra,
+                       Model model) {
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("category", category);
+            model.addAttribute("message", Message.error("Błąd zapisu"));
+            return "category/edit";
+        }
+
+        try {
+            categoryService.updateCategory(id, category);
+            ra.addFlashAttribute(Message.info("Kategoria edytowana"));
+        } catch (Exception e) {
+            model.addAttribute("category", category);
+            model.addAttribute("message", Message.error("Nieznany błąd zapisu"));
+            return "category/edit";
+        }
 
         return "redirect:/categories";
     }
@@ -62,8 +84,25 @@ public class CategoryViewController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute("category") Category category) {
-        categoryService.createCategory(category);
+    public String add(@Valid @ModelAttribute("category") Category category,
+                      BindingResult bindingResult,
+                      RedirectAttributes ra,
+                      Model model) {
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("category", category);
+            model.addAttribute("message", Message.error("Błąd zapisu"));
+            return "category/add";
+        }
+
+        try{
+            categoryService.createCategory(category);
+            ra.addFlashAttribute(Message.info("Kategoria utworzona"));
+        } catch (Exception e) {
+            model.addAttribute("category", category);
+            model.addAttribute("message", Message.error("Nieznant błąd zapisu"));
+            return "category/add";
+        }
 
         return "redirect:/categories";
     }
@@ -76,9 +115,13 @@ public class CategoryViewController {
     }
 
     @PostMapping("{id}/delete")
-    public String delete(@PathVariable UUID id) {
-        categoryService.deleteCategory(id);
-
+    public String delete(@PathVariable UUID id, RedirectAttributes ra) {
+        try {
+            categoryService.deleteCategory(id);
+            ra.addFlashAttribute(Message.info("Kategoria usunięta"));
+        } catch (Exception e) {
+            ra.addFlashAttribute(Message.error("Nieznany błąd. Nie udało się usunąć kategorii"));
+        }
         return "redirect:/categories";
     }
 

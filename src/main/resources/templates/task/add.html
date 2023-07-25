@@ -37,20 +37,30 @@
         <div class="content">
             <div class="container-fluid">
 
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">ADD TASK</h3>
+                <form th:object="${task}" method="post" action="/tasks">
+
+                    <div class="error" th:if="${#fields.hasAnyErrors()}">
+                        <ul>
+                            <li th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+                        </ul>
                     </div>
 
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">ADD TASK</h3>
+                        </div>
 
-                    <form th:object="${task}" method="post" action="/tasks">
+
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="taskName">Name:</label>
+                                <span class="error" th:if="${#fields.hasErrors('name')}"
+                                      th:errors="*{name}">Name error</span>
                                 <input th:field="*{name}" type="text" class="form-control" id="taskName"
                                        placeholder="Enter name">
                                 <br>
                                 <label for="taskPriority">Priority:</label>
+                                <span class="error" th:if="${#fields.hasErrors('priority')}" th:errors="*{priority}">Priority error</span>
                                 <input th:field="*{priority}" type="number" class="form-control" id="taskPriority"
                                        placeholder="Choose priority">
 
@@ -70,11 +80,12 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
 
 
-                </div>
+                    </div>
+                </form>
             </div>
+            >
         </div>
         <!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -92,13 +103,5 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
-
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="js/adminlte.min.js"></script>
 </body>
 </html>
