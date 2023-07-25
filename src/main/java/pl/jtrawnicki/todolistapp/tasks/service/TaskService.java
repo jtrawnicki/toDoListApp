@@ -29,6 +29,11 @@ public class TaskService {
     }
 
     @Transactional(readOnly = true)
+    public List<Task> getTasksSortedByPriority() {
+        return taskRepository.getTasksSortedByPriority();
+    }
+
+    @Transactional(readOnly = true)
     public Task getTask(UUID id) {
 
         return taskRepository.getReferenceById(id);
@@ -76,6 +81,7 @@ public class TaskService {
         return taskRepository.findAllByCategoryId(id);
     }
 
+    @Transactional(readOnly = true)
     public int getNumberOfTasks() {
         return taskRepository.getNumberOfTasks();
     }

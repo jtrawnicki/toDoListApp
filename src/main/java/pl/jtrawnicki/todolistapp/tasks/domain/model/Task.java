@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.NumberFormat;
 import pl.jtrawnicki.todolistapp.categories.domain.model.Category;
 
 import java.util.UUID;
@@ -15,8 +17,12 @@ public class Task {
     @Id
     private UUID id;
 
+    @NotBlank(message = "{toDoList.validation.name.NotBlank.message}")
+    @Size(min = 3, max = 255, message = "{toDoList.validation.size.NotBlank.message}")
     private String name;
 
+    @Min(value = 1, message = "Priority must be between 1 and 9")
+    @Max(value = 9, message = "Priority must be between 1 and 9")
     private int priority;
 
     @ManyToOne

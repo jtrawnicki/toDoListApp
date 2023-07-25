@@ -37,16 +37,24 @@
     <div class="content">
       <div class="container-fluid">
 
+        <form method="post" th:object="${category}">
+
+        <div class="error" th:if="${#fields.hasAnyErrors()}">
+          <ul>
+            <li th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+          </ul>
+        </div>
+
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">ADD CATEGORY</h3>
           </div>
 
 
-          <form method="post" th:object="${category}">
             <div class="card-body">
               <div class="form-group">
                 <label for="categoryName">Name</label>
+                <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</span>
                 <input th:field="*{name}" type="text" class="form-control" id="categoryName" placeholder="Enter name">
               </div>
 
@@ -55,8 +63,8 @@
             <div class="card-footer">
               <button type="submit" class="btn btn-primary">Create</button>
             </div>
-          </form>
         </div>
+        </form>
 
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -74,13 +82,5 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
-
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="js/adminlte.min.js"></script>
 </body>
 </html>

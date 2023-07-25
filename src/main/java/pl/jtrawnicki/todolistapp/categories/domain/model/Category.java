@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import pl.jtrawnicki.todolistapp.tasks.domain.model.Task;
 
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ public class Category {
     @Id
     private UUID id;
 
+    @NotBlank(message = "{toDoList.validation.name.NotBlank.message}")
+    @Size(min = 3, max = 255, message = "{toDoList.validation.size.NotBlank.message}")
     private String name;
 
     @OneToMany(mappedBy = "category")

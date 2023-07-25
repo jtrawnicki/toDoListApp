@@ -17,4 +17,7 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {
 
     @Query(value = "select COUNT(t) from Task t")
     int getNumberOfTasks();
+
+    @Query(value = "select t from Task t ORDER BY t.priority DESC")
+    List<Task> getTasksSortedByPriority();
 }

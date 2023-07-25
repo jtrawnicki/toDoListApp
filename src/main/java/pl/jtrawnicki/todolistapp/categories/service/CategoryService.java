@@ -60,4 +60,10 @@ public class CategoryService {
         categoryRepository.deleteById(id);
     }
 
+
+    @Transactional
+    public int getNumberOfCategories() {
+        return categoryRepository.getNumberOfCategories();
+    }
+
 }

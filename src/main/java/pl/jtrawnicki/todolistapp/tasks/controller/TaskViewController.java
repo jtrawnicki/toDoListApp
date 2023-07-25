@@ -1,10 +1,14 @@
 package pl.jtrawnicki.todolistapp.tasks.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.jtrawnicki.todolistapp.categories.service.CategoryService;
+import pl.jtrawnicki.todolistapp.common.dto.Message;
 import pl.jtrawnicki.todolistapp.tasks.domain.model.Task;
 import pl.jtrawnicki.todolistapp.tasks.service.TaskService;
 
@@ -26,7 +30,7 @@ public class TaskViewController {
 
     @GetMapping
     public String indexView(Model model) {
-        model.addAttribute("tasks", taskService.getTasks());
+        model.addAttribute("tasks", taskService.getTasksSortedByPriority());
 
         return "task/index";
     }
@@ -47,8 +51,26 @@ public class TaskViewController {
     }
 
     @PostMapping("{id}/edit")
-    public String edit(@ModelAttribute("task") Task task, @PathVariable UUID id) {
-        taskService.updateTask(id, task);
+    public String edit(@PathVariable UUID id,
+                       @Valid @ModelAttribute("task") Task task,
+                       BindingResult bindingResult,
+                       RedirectAttributes ra,
+                       Model model) {
+        if(bindingResult.hasErrors()){
+            model.addAttribute("task", task);
+            model.addAttribute("message", Message.error("Błąd zapisu"));
+            return "task/edit";
+        }
+
+        try {
+            taskService.updateTask(id, task);
+            ra.addFlashAttribute(Message.info("Zadanie pomyślnie edytowane"));
+
+        } catch (Exception e) {
+            model.addAttribute("task", task);
+            model.addAttribute("message", Message.error("Nieznant błąd zapisu"));
+            return "task/edit";
+        }
 
         return "redirect:/tasks";
     }
@@ -62,8 +84,27 @@ public class TaskViewController {
     }
 
     @PostMapping
-    public String add(@ModelAttribute("task") Task task) {
-        taskService.createTask(task);
+    public String add(@Valid @ModelAttribute("task") Task task,
+                      BindingResult bindingResult,
+                      RedirectAttributes ra,
+                      Model model) {
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("task", task);
+            model.addAttribute("message", Message.error("Błąd zapisu"));
+            model.addAttribute("categories", categoryService.getCategories());
+            return "task/add";
+        }
+
+        try{
+            taskService.createTask(task);
+            ra.addFlashAttribute(Message.info("Zadanie dodane pomyślnie"));
+
+        } catch (Exception e) {
+            model.addAttribute("task", task);
+            model.addAttribute("message", Message.error("Błąd zapisu"));
+            return "task/add";
+        }
 
         return "redirect:/tasks";
     }
@@ -76,8 +117,9 @@ public class TaskViewController {
     }
 
     @PostMapping("{id}/delete")
-    public String delete(@PathVariable UUID id) {
+    public String delete(@PathVariable UUID id, RedirectAttributes ra) {
         taskService.deleteTask(id);
+        ra.addFlashAttribute("message", Message.info("Zadanie usunięte pomyślnie"));
 
         return "redirect:/tasks";
     }
