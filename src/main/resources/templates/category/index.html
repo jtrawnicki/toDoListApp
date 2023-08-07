@@ -63,7 +63,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr th:each="category : ${categories}">
+                  <tr th:each="category : ${categoriesPage.content}">
                     <td th:text="${category.name}">task</td>
                     <td>
                       <a th:href="@{'/categories/'+${category.id}}" class="btn btn-primary btn-sm">
@@ -83,6 +83,18 @@
 
                   </tbody>
                 </table>
+
+                <div class="card-footer clearfix">
+                  <ul class="pagination pagination-sm m-0 float-right"
+                      th:if="${categoriesPage.totalPages > 0}">
+                    <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                      <a class="page-link"
+                         th:href="@{'/categories'(size=${categoriesPage.size}, page=${pageNumber}-1)}"
+                         th:text="${pageNumber}"></a>
+                    </li>
+                  </ul>
+                </div>
+
               </div>
 
             </div>

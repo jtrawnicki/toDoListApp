@@ -1,5 +1,7 @@
 package pl.jtrawnicki.todolistapp.categories.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.jtrawnicki.todolistapp.categories.domain.model.Category;
@@ -20,8 +22,8 @@ public class CategoryApiController {
     }
 
     @GetMapping
-    public List<Category> getCategories() {
-        return categoryService.getCategories();
+    public Page<Category> getCategories(Pageable pageable) {
+        return categoryService.getCategories(pageable);
     }
 
     @GetMapping("{id}")

@@ -1,6 +1,9 @@
 package pl.jtrawnicki.todolistapp.categories.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,7 +14,10 @@ import pl.jtrawnicki.todolistapp.categories.service.CategoryService;
 import pl.jtrawnicki.todolistapp.common.dto.Message;
 import pl.jtrawnicki.todolistapp.tasks.service.TaskService;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/categories")
@@ -27,8 +33,10 @@ public class CategoryViewController {
     }
 
     @GetMapping
-    public String indexView(Model model) {
-        model.addAttribute("categories", categoryService.getCategories());
+    public String indexView(@PageableDefault(value = 5) Pageable pageable, Model model) {
+        Page<Category> categoriesPage = categoryService.getCategories(pageable);
+        model.addAttribute("categoriesPage", categoriesPage);
+        paging(model, categoriesPage);
 
         return "category/index";
     }
@@ -44,7 +52,6 @@ public class CategoryViewController {
 
     @GetMapping("{id}/edit")
     public String editView(Model model, @PathVariable UUID id) {
-        model.addAttribute("categories", categoryService.getCategories());
         model.addAttribute("category", categoryService.getCategory(id));
         model.addAttribute("tasks", taskService.getTasks());
 
@@ -123,6 +130,16 @@ public class CategoryViewController {
             ra.addFlashAttribute(Message.error("Nieznany błąd. Nie udało się usunąć kategorii"));
         }
         return "redirect:/categories";
+    }
+
+    private void paging(Model model, Page page) {
+        int totalPages = page.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
     }
 
 
