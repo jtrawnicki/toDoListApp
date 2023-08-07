@@ -1,6 +1,7 @@
 package pl.jtrawnicki.todolistapp.tasks.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -78,7 +79,7 @@ public class TaskViewController {
     @GetMapping("/add")
     public String addView(Model model) {
         model.addAttribute("task", new Task());
-        model.addAttribute("categories", categoryService.getCategories());
+        model.addAttribute("categories", categoryService.getCategories(Pageable.unpaged()));
 
         return "task/add";
     }
@@ -92,7 +93,7 @@ public class TaskViewController {
         if(bindingResult.hasErrors()) {
             model.addAttribute("task", task);
             model.addAttribute("message", Message.error("Błąd zapisu"));
-            model.addAttribute("categories", categoryService.getCategories());
+            model.addAttribute("categories", categoryService.getCategories(Pageable.unpaged()));
             return "task/add";
         }
 
