@@ -14,6 +14,7 @@ After downloading project configure your database and db server in few step:
 * Connect with server:
   
   Login: postgres
+  
   Password: password
 
 * Create database in server:
