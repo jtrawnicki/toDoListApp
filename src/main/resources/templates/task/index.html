@@ -61,7 +61,8 @@
                   <tr>
                     <th>#</th>
                     <th>Name</th>
-                    <th>Priority</th>
+                    <th><a th:class="'sort-'+${reverseSort}"
+                            th:href="@{'/tasks'(s=${search}, field='priority', direction=${reverseSort})}">Priority</a></th>
                     <th>Options</th>
 
                   </tr>
