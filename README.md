@@ -1,6 +1,6 @@
 # ToDoListApp
 
-This is my first WEB application project, in which I focus mainly on the backend (Java, Spring, Hibernate, PostgreSQL), but I also take care of the frontend using Bootstrap,Thymeleaf, HTML and CSS.I am constantly developing the project with new functionalities that I am learning.
+This is my first WEB application project, in which I focus mainly on the backend (Java, Spring, Hibernate, PostgreSQL), but I also take care of the frontend using Bootstrap,Thymeleaf, HTML and CSS.I am constantly developing the project with new functionalities that I am learning. The app allows you to create, edit and delete tasks to do and assign them to different categories.
 
 # Setup
 To run this project, please clone this repository and create a local copy on your computer.
