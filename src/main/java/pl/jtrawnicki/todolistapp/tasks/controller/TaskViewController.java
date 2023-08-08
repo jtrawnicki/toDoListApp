@@ -1,7 +1,10 @@
 package pl.jtrawnicki.todolistapp.tasks.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +17,10 @@ import pl.jtrawnicki.todolistapp.tasks.domain.model.Task;
 import pl.jtrawnicki.todolistapp.tasks.service.TaskService;
 
 import java.awt.*;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/tasks")
@@ -30,15 +36,17 @@ public class TaskViewController {
     }
 
     @GetMapping
-    public String indexView(Model model) {
-        model.addAttribute("tasks", taskService.getTasksSortedByPriority());
+    public String indexView(@PageableDefault(value = 5, sort = "priority", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+        Page<Task> tasksPage = taskService.getTasks(pageable);
+        model.addAttribute("tasksPage", tasksPage);
+        paging(model, tasksPage);
 
         return "task/index";
     }
 
     @GetMapping("{id}")
     public String singleView(Model model, @PathVariable UUID id) {
-        model.addAttribute("tasks", taskService.getTasks());
+        model.addAttribute("tasks", taskService.getTasks(Pageable.unpaged()));
         model.addAttribute("task", taskService.getTask(id));
 
         return "task/single";
@@ -123,6 +131,16 @@ public class TaskViewController {
         ra.addFlashAttribute("message", Message.info("Zadanie usunięte pomyślnie"));
 
         return "redirect:/tasks";
+    }
+
+    private void paging(Model model, Page page) {
+        int totalPages = page.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
     }
 
 }

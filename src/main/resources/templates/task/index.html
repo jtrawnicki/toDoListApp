@@ -64,7 +64,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr th:each="task : ${tasks}">
+                  <tr th:each="task : ${tasksPage.content}">
                     <td th:text="${task.name}">task</td>
                     <td th:text="${task.priority}">task</td>
                     <td>
@@ -85,6 +85,17 @@
 
                   </tbody>
                 </table>
+
+                <div class="card-footer clearfix">
+                  <ul class="pagination pagination-sm m-0 float-right"
+                      th:if="${tasksPage.totalPages > 0}">
+                    <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                      <a class="page-link"
+                         th:href="@{'/tasks'(size=${tasksPage.size}, page=${pageNumber}-1)}"
+                         th:text="${pageNumber}"></a>
+                    </li>
+                  </ul>
+                </div>
 
 
               </div>
