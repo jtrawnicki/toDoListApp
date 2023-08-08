@@ -25,4 +25,6 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {
     List<Task> getTasksSortedByPriority();
 
     Page<Task> findAll(Pageable pageable);
+
+    Page<Task> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }

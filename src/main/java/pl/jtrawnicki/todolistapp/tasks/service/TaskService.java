@@ -29,7 +29,16 @@ public class TaskService {
 
     @Transactional(readOnly = true)
     public Page<Task> getTasks(Pageable pageable) {
-        return taskRepository.findAll(pageable);
+        return getTasks(null, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Task> getTasks(String search, Pageable pageable) {
+        if(search == null) {
+            return taskRepository.findAll(pageable);
+        } else {
+            return taskRepository.findByNameContainingIgnoreCase(search, pageable);
+        }
     }
 
     @Transactional(readOnly = true)
