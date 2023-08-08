@@ -8,11 +8,14 @@ To run this project, please clone this repository and create a local copy on you
 After downloading project configure your database and db server in few step:
 
 * Create database connection with Docker pasting this into command line:
+  
   docker run --name postgresToDoList -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres
 
 * Connect with server:
+  
   Login: postgres
   Password: password
 
 * Create database in server:
+  
   create database todolist;
