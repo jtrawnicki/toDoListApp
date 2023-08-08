@@ -14,7 +14,8 @@ This is my first WEB application project, in which I focus mainly on the backend
 
 * List of tasks:
 
-![taskList](https://github.com/jtrawnicki/toDoListApp/assets/118732841/4fb51430-0b68-44fb-8ebc-0b5f06b8fb5d)
+![tasksList2](https://github.com/jtrawnicki/toDoListApp/assets/118732841/b987edd9-b3b1-47f6-ab48-090a3b2c0ae9)
+
 
 # Setup
 To run this project, please clone this repository and create a local copy on your computer.
