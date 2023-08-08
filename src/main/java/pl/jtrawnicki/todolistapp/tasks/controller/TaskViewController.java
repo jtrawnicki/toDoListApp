@@ -2,6 +2,7 @@ package pl.jtrawnicki.todolistapp.tasks.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -38,11 +39,25 @@ public class TaskViewController {
     @GetMapping
     public String indexView(
             @RequestParam(value = "s", required = false) String search,
-            @PageableDefault(value = 5, sort = "priority", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(value = "field", required = false, defaultValue = "id") String field,
+            @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "5") int size,
             Model model) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.fromString(direction), field);
+
+        String reverseSort = null;
+        if("asc".equals(direction)) {
+            reverseSort = "desc";
+        } else {
+            reverseSort = "asc";
+        }
+
         Page<Task> tasksPage = taskService.getTasks(search, pageable);
         model.addAttribute("tasksPage", tasksPage);
         model.addAttribute("search", search);
+        model.addAttribute("reverseSort", reverseSort);
         paging(model, tasksPage);
 
         return "task/index";
