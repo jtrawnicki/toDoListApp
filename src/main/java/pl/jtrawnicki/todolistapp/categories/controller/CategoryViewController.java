@@ -53,7 +53,7 @@ public class CategoryViewController {
     @GetMapping("{id}/edit")
     public String editView(Model model, @PathVariable UUID id) {
         model.addAttribute("category", categoryService.getCategory(id));
-        model.addAttribute("tasks", taskService.getTasks());
+        model.addAttribute("tasks", taskService.getTasks(Pageable.unpaged()));
 
         return "category/edit";
     }

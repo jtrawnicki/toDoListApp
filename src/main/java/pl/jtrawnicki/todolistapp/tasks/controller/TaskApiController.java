@@ -1,5 +1,7 @@
 package pl.jtrawnicki.todolistapp.tasks.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.jtrawnicki.todolistapp.tasks.service.TaskService;
@@ -19,8 +21,8 @@ public class TaskApiController {
     }
 
     @GetMapping()
-    public List<Task> getTasks() {
-        return taskService.getTasks();
+    public Page<Task> getTasks(Pageable pageable) {
+        return taskService.getTasks(pageable);
     }
 
     @GetMapping("{id}")

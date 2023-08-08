@@ -1,5 +1,8 @@
 package pl.jtrawnicki.todolistapp.tasks.domain.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,4 +23,6 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {
 
     @Query(value = "select t from Task t ORDER BY t.priority DESC")
     List<Task> getTasksSortedByPriority();
+
+    Page<Task> findAll(Pageable pageable);
 }
