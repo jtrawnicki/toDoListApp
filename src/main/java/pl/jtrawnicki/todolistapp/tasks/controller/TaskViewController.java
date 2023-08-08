@@ -36,9 +36,13 @@ public class TaskViewController {
     }
 
     @GetMapping
-    public String indexView(@PageableDefault(value = 5, sort = "priority", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
-        Page<Task> tasksPage = taskService.getTasks(pageable);
+    public String indexView(
+            @RequestParam(value = "s", required = false) String search,
+            @PageableDefault(value = 5, sort = "priority", direction = Sort.Direction.DESC) Pageable pageable,
+            Model model) {
+        Page<Task> tasksPage = taskService.getTasks(search, pageable);
         model.addAttribute("tasksPage", tasksPage);
+        model.addAttribute("search", search);
         paging(model, tasksPage);
 
         return "task/index";
