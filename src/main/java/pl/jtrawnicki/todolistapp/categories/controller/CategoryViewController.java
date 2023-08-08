@@ -33,9 +33,13 @@ public class CategoryViewController {
     }
 
     @GetMapping
-    public String indexView(@PageableDefault(value = 5) Pageable pageable, Model model) {
-        Page<Category> categoriesPage = categoryService.getCategories(pageable);
+    public String indexView(
+            @RequestParam(value = "s", required = false) String search,
+            @PageableDefault(value = 5) Pageable pageable,
+            Model model) {
+        Page<Category> categoriesPage = categoryService.getCategories(search, pageable);
         model.addAttribute("categoriesPage", categoriesPage);
+        model.addAttribute("search", search);
         paging(model, categoriesPage);
 
         return "category/index";
