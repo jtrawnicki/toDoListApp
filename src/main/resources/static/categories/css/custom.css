@@ -3,9 +3,9 @@
 }
 
 .sort-asc:after {
-    content: " ↗"
+    content: " ↑";
 }
 
 .sort-desc:after {
-    content: " ↘"
+    content: " ↓";
 }
