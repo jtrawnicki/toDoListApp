@@ -2,7 +2,9 @@ package pl.jtrawnicki.todolistapp.categories.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,11 +37,25 @@ public class CategoryViewController {
     @GetMapping
     public String indexView(
             @RequestParam(value = "s", required = false) String search,
-            @PageableDefault(value = 5) Pageable pageable,
+            @RequestParam(value = "field", required = false, defaultValue = "id") String field,
+            @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "5") int size,
             Model model) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.fromString(direction), field);
+
+        String reverseSort = null;
+        if("asc".equals(direction)) {
+            reverseSort = "desc";
+        } else {
+            reverseSort = "asc";
+        }
+
         Page<Category> categoriesPage = categoryService.getCategories(search, pageable);
         model.addAttribute("categoriesPage", categoriesPage);
         model.addAttribute("search", search);
+        model.addAttribute("reverseSort", reverseSort);
         paging(model, categoriesPage);
 
         return "category/index";
